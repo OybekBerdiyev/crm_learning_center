@@ -5,6 +5,7 @@ import { UpdateGroupDto } from './dto/update-group.dto';
 import { IsAdmin } from '../guards/isAdmin.guard';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Group } from './models/group.model';
+import { FindGroupDto } from './dto/find-group.dto';
 
 @ApiTags("Groups")
 @Controller('group')
@@ -23,8 +24,8 @@ export class GroupController {
   @ApiResponse({status: 200, type: [Group]})
   @UseGuards(IsAdmin)
   @Get()
-  findAll() {
-    return this.groupService.findAll();
+  findAll(findGroupDto: FindGroupDto) {
+    return this.groupService.findAll(findGroupDto);
   }
 
   @ApiOperation({summary: "Update Group"})

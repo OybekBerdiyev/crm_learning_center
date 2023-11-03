@@ -6,6 +6,7 @@ import { Subject, SubjectDocument } from '../subject/models/subject.model';
 import { Teacher, TeacherDocument } from '../teacher/models/teacher.model';
 import { Model } from 'mongoose';
 import { Group, GroupDocument } from './models/group.model';
+import { FindGroupDto } from './dto/find-group.dto';
 
 @Injectable()
 export class GroupService {
@@ -23,8 +24,33 @@ export class GroupService {
     return this.groupModel.create(createGroupDto)
   }
 
-  findAll() {
-    return this.groupModel.find().populate('teacher_id subject_id');
+  async findAll(findGroupDto: FindGroupDto) {
+    const where = {};
+
+    if (!findGroupDto.title && !findGroupDto.start_time && !findGroupDto.end_time) {
+      const groups = await this.groupModel.find().populate('teacher_id subject_id');
+      return groups;
+    }
+
+    if (findGroupDto.title) {
+      where['title'] = {
+        $regex: new RegExp(findGroupDto.title, 'i')
+      };
+    }
+
+    if (findGroupDto.start_time && findGroupDto.end_time) {
+      where['start_time'] = {
+        $gte: findGroupDto.start_time,
+        $lte: findGroupDto.end_time,
+      };
+    } else if (findGroupDto.start_time) {
+      where['start_time'] = { $gte: findGroupDto.start_time };
+    } else if (findGroupDto.end_time) {
+      where['start_time'] = { $lte: findGroupDto.end_time };
+    }
+
+    const groups = await this.groupModel.find(where).populate('teacher_id subject_id');
+    return groups;
   }
 
   async update(id: string, updateGroupDto: UpdateGroupDto) {

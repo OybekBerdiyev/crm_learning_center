@@ -5,6 +5,7 @@ import { UpdateTeacherDto } from './dto/update-teacher.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Teacher } from './models/teacher.model';
 import { IsAdmin } from '../guards/isAdmin.guard';
+import { FindTeacherDto } from './dto/find-teacher.dto';
 
 @ApiTags("Teachers")
 @Controller('teacher')
@@ -19,12 +20,10 @@ export class TeacherController {
     return this.teacherService.create(createTeacherDto);
   }
 
-  @ApiOperation({summary: "Get all Teacher"})
-  @ApiResponse({status: 200, type: [Teacher]})
-  @UseGuards(IsAdmin)
+  @ApiOperation({summary: "filter students"})
   @Get()
-  findAll() {
-    return this.teacherService.findAll();
+  findAll(@Body() findTeacherDto: FindTeacherDto) {
+    return this.teacherService.findAll(findTeacherDto)
   }
 
   @ApiOperation({summary: "Get one Teacher"})

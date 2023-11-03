@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Teacher, TeacherDocument } from './models/teacher.model';
 import { Model } from 'mongoose';
 import { Subject, SubjectDocument } from '../subject/models/subject.model';
+import { FindTeacherDto } from './dto/find-teacher.dto';
 
 @Injectable()
 export class TeacherService {
@@ -18,8 +19,29 @@ export class TeacherService {
     return this.teacherModel.create(createTeacherDto)
   }
 
-  findAll() {
-    return this.teacherModel.find().populate('subject_id')
+  async findAll(findTeacherDto: FindTeacherDto) {
+    const where = {};
+
+    if (!findTeacherDto.full_name && !findTeacherDto.phone) {
+      const teachers = await this.teacherModel.find();
+      return teachers;
+    }
+    if (findTeacherDto.full_name) {
+      where['full_name'] = {
+        $regex: new RegExp(findTeacherDto.full_name, 'i')
+      };
+    }
+    if (findTeacherDto.phone) {
+      where['phone'] = {
+        $regex: new RegExp(findTeacherDto.phone, 'i')
+      };
+    }
+
+    const teachers = await this.teacherModel.find(where);
+    if (teachers.length == 0) {
+      throw new BadRequestException("not found");
+    }
+    return teachers;
   }
 
   findOne(id: string) {
