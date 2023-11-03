@@ -7,6 +7,9 @@ import { TeacherModule } from './teacher/teacher.module';
 import { GroupModule } from './group/group.module';
 import { StudentModule } from './student/student.module';
 import { GroupStudentModule } from './group_student/group_student.module';
+import { AttendanceModule } from './attendance/attendance.module';
+import { PaymentModule } from './payment/payment.module';
+import { FreezeModule } from './freeze/freeze.module';
 
 
 
@@ -20,6 +23,9 @@ import { GroupStudentModule } from './group_student/group_student.module';
   GroupModule,
   StudentModule,
   GroupStudentModule,
+  AttendanceModule,
+  PaymentModule,
+  FreezeModule,
 
 ],
   controllers: [],

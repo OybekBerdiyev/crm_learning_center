@@ -1,0 +1,16 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # NestJS uygulamasının çalıştığı port
+    environment:
+      MONGO_URL: mongodb://mongodb:27017/myappdb # MongoDB bağlantı URL'si
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:latest # Resmi MongoDB imajı
+    ports:
+      - "27017:27017" # MongoDB'nin çalıştığı port

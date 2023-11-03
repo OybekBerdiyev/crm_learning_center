@@ -3,9 +3,10 @@ import { GroupService } from './group.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { IsAdmin } from '../guards/isAdmin.guard';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Group } from './models/group.model';
 
+@ApiTags("Groups")
 @Controller('group')
 export class GroupController {
   constructor(private readonly groupService: GroupService) {}
@@ -24,14 +25,6 @@ export class GroupController {
   @Get()
   findAll() {
     return this.groupService.findAll();
-  }
-
-  @ApiOperation({summary: "Get one Group"})
-  @ApiResponse({status: 200, type: Group})
-  @UseGuards(IsAdmin)
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.groupService.findOne(id);
   }
 
   @ApiOperation({summary: "Update Group"})

@@ -15,10 +15,10 @@ import { CreateAdminDto, ForgotPassword, LoginAdminDto, OtpAccess, UpdateAdminDt
 export class AdminsService {
   constructor(
     @InjectModel(Admin.name) private readonly adminModel: Model<AdminDocument>,
-   private readonly tokenService: TokensService, 
-  private readonly redisService: RedisService,
-  private readonly smsService: SmsService,
-  private readonly jwtService: JwtService,
+    private readonly tokenService: TokensService, 
+    private readonly redisService: RedisService,
+    private readonly smsService: SmsService,
+    private readonly jwtService: JwtService,
   ) {}
 
   /**Register admin */

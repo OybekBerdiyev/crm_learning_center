@@ -27,10 +27,6 @@ export class GroupService {
     return this.groupModel.find().populate('teacher_id subject_id');
   }
 
-  findOne(id: string) {
-    return this.groupModel.findById(id).populate('subject_id teacher_id');
-  }
-
   async update(id: string, updateGroupDto: UpdateGroupDto) {
     const group = await this.groupModel.findByIdAndUpdate(id, updateGroupDto, {new: true}).populate('subject_id','teacher_id');
     return group

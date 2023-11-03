@@ -2,10 +2,11 @@ import { Controller, Get, Post, Body, Put, Param, Delete, UseGuards } from '@nes
 import { StudentService } from './student.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { IsAdmin } from '../guards/isAdmin.guard';
 import { Student } from './models/student.model';
 
+@ApiTags("Student")
 @Controller('student')
 export class StudentController {
   constructor(private readonly studentService: StudentService) {}
